@@ -1,0 +1,22 @@
+{
+    "name": "Marmalade.Bootstrap",
+    "rootNamespace": "Marmalade.Bootstrap",
+    "references": [
+        "GUID:b0214a6008ed146ff8f122a6a9c2f6cc",
+        "GUID:f51ebe6a0ceec4240a699833d6309b23",
+        "GUID:8cfcc14148bbe67e7a6f0d5143cd3535",
+        "GUID:08b38f39e2d9e594389b7a4cf4c2c338",
+        "GUID:4f682e06dbb3e624faedad9cc27106cc",
+        "GUID:083d5ed12ec75df9485ff8a54840ce9c",
+        "GUID:7c756fb822e0d26de981ef84a580e1e8"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": false,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

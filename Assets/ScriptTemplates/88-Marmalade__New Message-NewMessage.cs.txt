@@ -1,0 +1,5 @@
+#ROOTNAMESPACEBEGIN#
+    public readonly struct #SCRIPTNAME#
+    {
+    }
+#ROOTNAMESPACEEND#

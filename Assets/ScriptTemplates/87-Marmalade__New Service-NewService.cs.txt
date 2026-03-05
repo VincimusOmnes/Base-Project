@@ -1,0 +1,11 @@
+using VContainer.Unity;
+
+#ROOTNAMESPACEBEGIN#
+    public class #SCRIPTNAME# : IInitializable
+    {
+        public void Initialize()
+        {
+        }
+    }
+}
+#ROOTNAMESPACEEND#

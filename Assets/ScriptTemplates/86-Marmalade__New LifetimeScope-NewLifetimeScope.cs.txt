@@ -1,0 +1,12 @@
+using UnityEngine;
+using VContainer;
+using VContainer.Unity;
+
+#ROOTNAMESPACEBEGIN#
+    public class #SCRIPTNAME# : LifetimeScope
+    {
+        protected override void Configure(IContainerBuilder builder)
+        {
+        }
+    }
+#ROOTNAMESPACEEND#
