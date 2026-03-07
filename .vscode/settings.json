@@ -1,4 +1,6 @@
 {
+    // Block web template breaking on custom Unity binds #if #endif etc
+    "html.validate.scripts": false,
     "files.exclude": {
         "**/.DS_Store": true,
         "**/.git": true,
@@ -68,4 +70,5 @@
         "*.slnx": "*.csproj"
     },
     "dotnet.defaultSolution": "Base-Project.slnx"
+    
 }
