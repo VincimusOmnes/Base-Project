@@ -14,7 +14,7 @@ namespace Marmalade.Systems
     {
         [SerializeField] private CanvasGroup _canvasGroup;
         [SerializeField] private Image _progressBarFillImage;
-        [SerializeField] private TextMeshProUGUI _statusText;
+        [SerializeField] private TextMeshProUGUI _progressText;
 
         [Inject] private LoadingScreenConfig _config;
 
@@ -33,6 +33,7 @@ namespace Marmalade.Systems
         {
             _progressBarFillImage.fillAmount = 0f;
             var tween = Tween.Alpha(_canvasGroup, endValue: 1f, duration: _config.FadeInDuration);
+            SetProgressText(0f);
         }
 
         /// <summary>
@@ -41,6 +42,7 @@ namespace Marmalade.Systems
         public void Hide()
         {
             Tween.Alpha(_canvasGroup, endValue: 0f, duration: _config.FadeOutDuration);
+            SetProgressText(1f);
         }
 
         /// <summary>
@@ -54,14 +56,13 @@ namespace Marmalade.Systems
             if (_progressBarFillImage.fillAmount == progress) return;
             _progressTween.Stop();
             Tween.UIFillAmount(_progressBarFillImage, endValue: progress, duration:_config.ProgressSmoothing);
+            SetProgressText(progress);
         }
 
-        /// <summary>
-        /// Sets the status label text.
-        /// </summary>
-        public void SetStatus(string status)
+        private void SetProgressText(float progress)
         {
-            _statusText.text = status;
+            float progressPercentage = progress * 100;
+            _progressText.text = $"{progressPercentage:0}%";
         }
     }
 }

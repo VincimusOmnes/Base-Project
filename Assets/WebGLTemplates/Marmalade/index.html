@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <title>{{{ PRODUCT_NAME }}}</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    :root {
+      --gold: #F5A800;
+      --gold-dark: #C07800;
+      --white: #FFFFFF;
+      --black: #000000;
+      --bar-width: 240px;
+      --bar-height: 18px;
+      --bar-border: 2px;
+    }
+
+    html, body {
+      width: 100%;
+      height: 100%;
+      background: var(--black);
+      overflow: hidden;
+    }
+
+    /* ── Loading overlay ─────────────────────────────────────── */
+
+    #loading-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 10;
+      background: var(--black);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 24px;
+      transition: opacity 0.6s ease;
+      image-rendering: pixelated;
+    }
+
+    #loading-overlay.fade-out {
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    /* ── Logo ────────────────────────────────────────────────── */
+
+    #logo {
+      width: 96px;
+      height: 96px;
+      background: var(--white);
+      image-rendering: pixelated;
+    }
+
+    /* When you have a real logo, replace the div with:
+       <img id="logo" src="TemplateData/logo.png" alt="{{{ PRODUCT_NAME }}}"> */
+
+    /* ── Progress bar ────────────────────────────────────────── */
+
+    #progress-bar-container {
+      width: var(--bar-width);
+      height: var(--bar-height);
+      border: var(--bar-border) solid var(--white);
+      padding: 2px;
+      image-rendering: pixelated;
+    }
+
+    #progress-bar-fill {
+      height: 100%;
+      width: 0%;
+      background: var(--gold);
+      transition: width 0.15s linear;
+    }
+
+    /* ── Percentage label ────────────────────────────────────── */
+
+    #progress-label {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 10px;
+      color: var(--white);
+      letter-spacing: 0.05em;
+      /* Prevent layout shift as the number changes width */
+      width: var(--bar-width);
+      text-align: center;
+    }
+
+    /* ── Canvas ──────────────────────────────────────────────── */
+
+    #unity-canvas {
+      position: fixed;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
+  </style>
+</head>
+<body>
+
+  <div id="loading-overlay">
+    <div id="logo"></div>
+
+    <div id="progress-bar-container">
+      <div id="progress-bar-fill"></div>
+    </div>
+
+    <div id="progress-label">0%</div>
+  </div>
+
+  <canvas id="unity-canvas" tabindex="-1"></canvas>
+
+  <script src="Build/{{{ LOADER_FILENAME }}}"></script>
+  <script>
+    (function () {
+      var overlay     = document.getElementById('loading-overlay');
+      var fill        = document.getElementById('progress-bar-fill');
+      var label       = document.getElementById('progress-label');
+      var canvas      = document.getElementById('unity-canvas');
+
+      // ── Mobile viewport ──────────────────────────────────────
+      if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
+        var meta = document.createElement('meta');
+        meta.name = 'viewport';
+        meta.content = 'width=device-width, height=device-height, initial-scale=1.0, user-scalable=no, shrink-to-fit=yes';
+        document.head.appendChild(meta);
+      }
+
+      // ── Audio context resume (required for WebGL audio) ──────
+      // Browsers suspend the AudioContext until a user gesture occurs.
+      // We resume it on the first pointer interaction.
+      document.addEventListener('pointerdown', function resumeAudio() {
+        if (window.unityInstance) {
+          var ctx = window.unityInstance.Module && window.unityInstance.Module.ctx;
+          if (ctx && ctx.state === 'suspended') {
+            ctx.resume();
+          }
+        }
+        document.removeEventListener('pointerdown', resumeAudio);
+      }, { once: true });
+
+      // ── Progress callback ─────────────────────────────────────
+      function onProgress(progress) {
+        var pct = Math.round(progress * 100);
+        fill.style.width  = pct + '%';
+        label.textContent = pct + '%';
+      }
+
+      // ── Success callback ──────────────────────────────────────
+      function onSuccess(unityInstance) {
+        window.unityInstance = unityInstance;
+        overlay.classList.add('fade-out');
+        overlay.addEventListener('transitionend', function () {
+          overlay.style.display = 'none';
+        }, { once: true });
+      }
+
+      // ── Error callback ────────────────────────────────────────
+      function onError(message) {
+        console.error('Unity WebGL failed to load:', message);
+        label.textContent = 'Error';
+        label.style.color = '#FF4444';
+        fill.style.background = '#FF4444';
+      }
+
+      // ── Instantiate ───────────────────────────────────────────
+      createUnityInstance(canvas, {
+        arguments:          [],
+        dataUrl:            'Build/{{{ DATA_FILENAME }}}',
+        frameworkUrl:       'Build/{{{ FRAMEWORK_FILENAME }}}',
+#if USE_THREADS
+        workerUrl:          'Build/{{{ WORKER_FILENAME }}}',
+#endif
+#if USE_WASM
+        codeUrl:            'Build/{{{ CODE_FILENAME }}}',
+#endif
+#if SYMBOLS_FILENAME
+        symbolsUrl:         'Build/{{{ SYMBOLS_FILENAME }}}',
+#endif
+        streamingAssetsUrl: 'StreamingAssets',
+        companyName:        {{{ JSON.stringify(COMPANY_NAME) }}},
+        productName:        {{{ JSON.stringify(PRODUCT_NAME) }}},
+        productVersion:     {{{ JSON.stringify(PRODUCT_VERSION) }}},
+      }, onProgress).then(onSuccess).catch(onError);
+    })();
+  </script>
+
+</body>
+</html>

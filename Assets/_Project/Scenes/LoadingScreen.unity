@@ -490,7 +490,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 100%
+  m_text: 0%
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8d8a3d5ade69440858e332a899c70499, type: 2}
   m_sharedMaterial: {fileID: -3646859211706253628, guid: 8d8a3d5ade69440858e332a899c70499, type: 2}
@@ -691,7 +691,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Marmalade.Systems::Marmalade.Systems.LoadingScreenView
   _canvasGroup: {fileID: 2144522320}
   _progressBarFillImage: {fileID: 1809435654}
-  _statusText: {fileID: 1780464878}
+  _progressText: {fileID: 1780464878}
 --- !u!1 &1969543512
 GameObject:
   m_ObjectHideFlags: 0
