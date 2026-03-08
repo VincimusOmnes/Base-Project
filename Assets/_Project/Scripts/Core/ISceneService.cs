@@ -26,7 +26,7 @@ namespace Marmalade.Core
 
         /// <summary>
         /// Loads the scene by name skipping any internal load handling.
-        /// Does not add to DoNotDestroy
+        /// Should not add to DoNotDestroy
         /// </summary>
         UniTask LoadPersistentSceneAsync(string sceneName, CancellationToken ct = default);
     }

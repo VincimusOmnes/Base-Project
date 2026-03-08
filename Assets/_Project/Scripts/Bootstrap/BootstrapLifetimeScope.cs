@@ -11,7 +11,7 @@ namespace Marmalade.Bootstrap
     /// Root VContainer LifetimeScope for the Bootstrap scene.
     /// Responsible for initialising global systems and registering application-wide services and message brokers.
     /// This scope is the parent of all scene-level child scopes and is never destroyed during the application lifetime.
-    /// Register only truly global concerns here scene and system specific registrations belong in their own child scopes.
+    /// Register only truly global concerns here — scene and system specific registrations belong in their own child scopes.
     /// </summary>
     public class BootstrapLifetimeScope : LifetimeScope
     {
@@ -37,10 +37,18 @@ namespace Marmalade.Bootstrap
             builder.RegisterMessageBroker<SceneLoadProgressMessage>(options);
             builder.RegisterMessageBroker<SceneLoadCompletedMessage>(options);
 
+            // Save system message brokers
+            builder.RegisterMessageBroker<GameSavedMessage>(options);
+            builder.RegisterMessageBroker<GameLoadedMessage>(options);
+            builder.RegisterMessageBroker<SaveDeletedMessage>(options);
+            builder.RegisterMessageBroker<SettingsChangedMessage>(options);
+
             // Services
             builder.Register<IGameStateService, GameStateService>(Lifetime.Singleton);
             builder.Register<IQualityService, QualityService>(Lifetime.Singleton);
             builder.Register<ISceneService, SceneService>(Lifetime.Singleton);
+            builder.Register<ISaveService, SaveService>(Lifetime.Singleton);
+            builder.Register<ISettingsService, SettingsService>(Lifetime.Singleton);
         }
     }
 }

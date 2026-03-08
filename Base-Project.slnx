@@ -42,9 +42,9 @@
   <Project Path="MessagePipe.Editor.csproj" />
   <Project Path="Marmalade.Editor.csproj" />
   <Project Path="Unity.CollabProxy.Editor.csproj" />
+  <Project Path="Marmalade.Core.csproj" />
   <Project Path="UniTask.Editor.csproj" />
   <Project Path="Marmalade.Shared.csproj" />
-  <Project Path="Marmalade.Core.csproj" />
   <Project Path="Unity.InputSystem.DocCodeSamples.csproj" />
   <Project Path="Marmalade.Bootstrap.csproj" />
   <Project Path="IngameDebugConsole.Editor.csproj" />

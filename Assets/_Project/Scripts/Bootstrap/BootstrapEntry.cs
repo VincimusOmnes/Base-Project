@@ -1,9 +1,7 @@
-using System;
 using Cysharp.Threading.Tasks;
 using Marmalade.Core;
-using Marmalade.Shared;
 using VContainer.Unity;
-using UnityEngine.SceneManagement;
+using Marmalade.Shared;
 
 namespace Marmalade.Bootstrap
 {
@@ -16,11 +14,19 @@ namespace Marmalade.Bootstrap
     {
         private readonly ISceneService _sceneService;
         private readonly IQualityService _qualityService;
+        private readonly ISettingsService _settingsService;
+        private readonly ISaveService _saveService;
 
-        public BootstrapEntry(ISceneService sceneService, IQualityService qualityService)
+        public BootstrapEntry(
+            ISceneService sceneService,
+            IQualityService qualityService,
+            ISettingsService settingsService,
+            ISaveService saveService)
         {
-            _sceneService = sceneService;
-            _qualityService = qualityService;
+            _sceneService    = sceneService;
+            _qualityService  = qualityService;
+            _settingsService = settingsService;
+            _saveService     = saveService;
         }
 
         /// <summary>
@@ -31,6 +37,12 @@ namespace Marmalade.Bootstrap
         {
             RegisterExceptionHandler();
             _qualityService.InitialiseQuality();
+
+            // Settings must be loaded before save data — audio, display, and
+            // other systems may depend on settings values during their own init.
+            _settingsService.Load();
+            _saveService.Load();
+
             StartupAsync().Forget();
         }
 
