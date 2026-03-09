@@ -51,16 +51,17 @@ namespace Marmalade.Bootstrap
             UniTaskScheduler.UnobservedTaskException += ex =>
             {
                 #if ENABLE_LOGGING
-                    Log.Exception(ex);
+                Log.Exception(ex);
                 #endif
             };
         }
 
         private async UniTaskVoid StartupAsync()
         {
-            // LoadingScreen is loaded first and never unloaded — it persists for the
-            // lifetime of the application and overlays all subsequent scene transitions.
+            // LoadingScreen and Audio are loaded first and never unloaded —
+            // they persist for the lifetime of the application.
             await _sceneService.LoadPersistentSceneAsync("LoadingScreen");
+            await _sceneService.LoadPersistentSceneAsync("Audio");
             await _sceneService.LoadSceneAsync("MainMenu");
         }
     }

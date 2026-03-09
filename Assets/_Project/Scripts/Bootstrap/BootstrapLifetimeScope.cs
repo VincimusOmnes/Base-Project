@@ -16,6 +16,8 @@ namespace Marmalade.Bootstrap
     public class BootstrapLifetimeScope : LifetimeScope
     {
         [SerializeField] private LoadingScreenConfig _loadingScreenConfig;
+        [SerializeField] private AudioConfig _audioConfig;
+
 
         protected override void Configure(IContainerBuilder builder)
         {
@@ -28,6 +30,7 @@ namespace Marmalade.Bootstrap
 
             // Config assets
             builder.RegisterInstance(_loadingScreenConfig);
+            builder.RegisterInstance(_audioConfig);
 
             // Global message brokers
             builder.RegisterMessageBroker<GameStateChangedMessage>(options);
@@ -49,6 +52,7 @@ namespace Marmalade.Bootstrap
             builder.Register<ISceneService, SceneService>(Lifetime.Singleton);
             builder.Register<ISaveService, SaveService>(Lifetime.Singleton);
             builder.Register<ISettingsService, SettingsService>(Lifetime.Singleton);
+            builder.Register<IAudioService, AudioService>(Lifetime.Singleton);
         }
     }
 }

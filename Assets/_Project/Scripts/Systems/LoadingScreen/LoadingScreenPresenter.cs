@@ -1,4 +1,5 @@
 using System;
+using Marmalade.Core;
 using MessagePipe;
 using UnityEngine;
 using VContainer.Unity;
@@ -13,6 +14,8 @@ namespace Marmalade.Systems
     public class LoadingScreenPresenter : IInitializable, IDisposable
     {
         private readonly LoadingScreenView _view;
+        private readonly IAudioService _audioService;
+        private readonly AudioConfig _audioConfig;
         private readonly ISubscriber<SceneLoadStartedMessage> _loadStarted;
         private readonly ISubscriber<SceneLoadProgressMessage> _loadProgress;
         private readonly ISubscriber<SceneLoadCompletedMessage> _loadCompleted;
@@ -21,11 +24,15 @@ namespace Marmalade.Systems
 
         public LoadingScreenPresenter(
             LoadingScreenView view,
+            IAudioService audioService,
+            AudioConfig audioConfig,
             ISubscriber<SceneLoadStartedMessage> loadStarted,
             ISubscriber<SceneLoadProgressMessage> loadProgress,
             ISubscriber<SceneLoadCompletedMessage> loadCompleted)
         {
             _view = view;
+            _audioService = audioService;
+            _audioConfig = audioConfig;
             _loadStarted = loadStarted;
             _loadProgress = loadProgress;
             _loadCompleted = loadCompleted;
@@ -39,18 +46,19 @@ namespace Marmalade.Systems
         {
             IDisposable loadStartedSubscription = _loadStarted.Subscribe(_ =>
             {
-                Debug.Log("[LoadingScreenPresenter] Load started");
                 _view.Show();
+                if (_audioConfig.LoadingStarted != null)
+                    _audioService.PlaySfx(_audioConfig.LoadingStarted);
             });
             IDisposable loadProgressSubscription = _loadProgress.Subscribe(msg =>
             {
-                Debug.Log($"[LoadingScreenPresenter] Progress: {msg.Progress}");
                 _view.SetProgress(msg.Progress);
             });
             IDisposable loadCompletedSubscription = _loadCompleted.Subscribe(_ =>
             {
-                Debug.Log("[LoadingScreenPresenter] Load completed");
                 _view.Hide();
+                if (_audioConfig.LoadingCompleted != null)
+                    _audioService.PlaySfx(_audioConfig.LoadingCompleted);
             });
 
             _subscriptions = DisposableBag.Create(loadStartedSubscription, loadProgressSubscription, loadCompletedSubscription);

@@ -12,6 +12,9 @@ EditorBuildSettings:
     path: Assets/_Project/Scenes/LoadingScreen.unity
     guid: 6a36d9b032a8bfdc2a5347eeda74b975
   - enabled: 1
+    path: Assets/_Project/Scenes/Audio.unity
+    guid: 5a5697046107909c6ad1cf57f2bacc14
+  - enabled: 1
     path: Assets/_Project/Scenes/MainMenu.unity
     guid: 70e84b05d8a0f5325911ab18cf5084cc
   m_configObjects:

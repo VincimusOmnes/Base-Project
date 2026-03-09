@@ -1,2 +1,13 @@
 fileFormatVersion: 2
 guid: a975078466006afe2ac4652900c8e304
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - _loadingScreenConfig: {fileID: 11400000, guid: 00bba0956eec8e5568c99913c87f50fa, type: 2}
+  - _audioConfig: {fileID: 11400000, guid: 18acac8389bd6865b9ef45c46bbbf166, type: 2}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

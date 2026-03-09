@@ -168,6 +168,7 @@ MonoBehaviour:
   autoRun: 1
   autoInjectGameObjects: []
   _loadingScreenConfig: {fileID: 11400000, guid: 00bba0956eec8e5568c99913c87f50fa, type: 2}
+  _audioConfig: {fileID: 11400000, guid: 65c140e3aad7fd511969b2caf59836ab, type: 2}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

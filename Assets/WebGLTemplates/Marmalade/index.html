@@ -133,19 +133,6 @@
         document.head.appendChild(meta);
       }
 
-      // ── Audio context resume (required for WebGL audio) ──────
-      // Browsers suspend the AudioContext until a user gesture occurs.
-      // We resume it on the first pointer interaction.
-      document.addEventListener('pointerdown', function resumeAudio() {
-        if (window.unityInstance) {
-          var ctx = window.unityInstance.Module && window.unityInstance.Module.ctx;
-          if (ctx && ctx.state === 'suspended') {
-            ctx.resume();
-          }
-        }
-        document.removeEventListener('pointerdown', resumeAudio);
-      }, { once: true });
-
       // ── Progress callback ─────────────────────────────────────
       function onProgress(progress) {
         var pct = Math.round(progress * 100);
